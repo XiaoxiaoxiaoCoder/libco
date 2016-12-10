@@ -29,48 +29,50 @@ struct stCoSpec_t
 
 struct stStackMem_t
 {
-	stCoRoutine_t* ocupy_co;
-	int stack_size;
-	char* stack_bp; //stack_buffer + stack_size
-	char* stack_buffer;
+	stCoRoutine_t* ocupy_co;                        //当前栈的占据者
+	int stack_size;                                 //栈大小
+	char* stack_bp; //stack_buffer + stack_size     //栈顶
+	char* stack_buffer;                             //栈空间起始地址
 
 };
 
 struct stShareStack_t
 {
-	unsigned int alloc_idx;
-	int stack_size;
-	int count;
-	stStackMem_t** stack_array;
+	unsigned int alloc_idx;                         //协程分配共享栈时,分配具体哪个栈分配的索引增量
+	int stack_size;                                 //栈大小
+	int count;                                      //栈个数
+	stStackMem_t** stack_array;                     //栈空间数组
 };
 
 
-
+/*
+ * 协程结构体
+ */
 struct stCoRoutine_t
 {
 	stCoRoutineEnv_t *env;
-	pfn_co_routine_t pfn;
+	pfn_co_routine_t pfn;               //协程执行函数
 	void *arg;
-	coctx_t ctx;
+	coctx_t ctx;                        //协程相关的ctx
 
-	char cStart;
-	char cEnd;
-	char cIsMain;
-	char cEnableSysHook;
-	char cIsShareStack;
+	char cStart;                        //协程是否已经开始执行过
+	char cEnd;                          //协程是否已经执行完
+	char cIsMain;                       //是否为主协程
+	char cEnableSysHook;                //是否允许hook函数
+	char cIsShareStack;                 //是否为共享栈, 1:使用共享栈,0:未使用共享栈
 
 	void *pvEnv;
 
 	//char sRunStack[ 1024 * 128 ];
-	stStackMem_t* stack_mem;
+	stStackMem_t* stack_mem;            //栈空间
 
 
 	//save satck buffer while confilct on same stack_buffer;
-	char* stack_sp; 
-	unsigned int save_size;
-	char* save_buffer;
+	char* stack_sp;                     //堆栈指针地址
+	unsigned int save_size;             //保存堆栈内容的大小
+	char* save_buffer;                  //保存堆栈内容的空间大小
 
-	stCoSpec_t aSpec[1024];
+	stCoSpec_t aSpec[1024];             //协程自己特有的参数
 
 };
 

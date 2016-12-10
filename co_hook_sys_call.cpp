@@ -954,7 +954,9 @@ struct hostent *co_gethostbyname(const char *name)
 }
 #endif
 
-
+/*
+ * 允许hook函数
+ */
 void co_enable_hook_sys() //这函数必须在这里,否则本文件会被忽略！！！
 {
 	stCoRoutine_t *co = GetCurrThreadCo();

@@ -28,10 +28,13 @@
 struct stCoRoutine_t;
 struct stShareStack_t;
 
+/*
+ * 创建协程时的参数
+ */
 struct stCoRoutineAttr_t
 {
-	int stack_size;
-	stShareStack_t*  share_stack;
+	int stack_size;                     //栈大小
+	stShareStack_t*  share_stack;       //是否为共享栈
 	stCoRoutineAttr_t()
 	{
 		stack_size = 128 * 1024;
